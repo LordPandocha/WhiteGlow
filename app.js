@@ -1,234 +1,89 @@
-const root = document.documentElement;
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const revealItems = document.querySelectorAll("[data-reveal]");
+(()=>{var we=typeof window<"u",kt=we?window:null,je=we?document:null,M={OBJECT:0,ATTRIBUTE:1,CSS:2,TRANSFORM:3,CSS_VAR:4},g={NUMBER:0,UNIT:1,COLOR:2,COMPLEX:3},ie={NONE:0,AUTO:1,FORCE:2},z={replace:0,none:1,blend:2},fs=Symbol(),$e=Symbol(),$t=Symbol(),et=Symbol(),Xs=Symbol(),b=1e-11,xt=1e12,qe=1e3,St=240,Ne="",Ys="var(",Ct=[],qt=(()=>{let e=new Map;return e.set("x","translateX"),e.set("y","translateY"),e.set("z","translateZ"),e})(),dt=["perspective","translateX","translateY","translateZ","rotate","rotateX","rotateY","rotateZ","scale","scaleX","scaleY","scaleZ","skew","skewX","skewY"],zs=dt.reduce((e,t)=>({...e,[t]:t+"("}),{}),pe=()=>{},Hs=e=>e,Zs=/\)\s*[-.\d]/,Ws=/(^#([\da-f]{3}){1,2}$)|(^#([\da-f]{4}){1,2}$)/i,Js=/rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i,Ks=/rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(-?\d+|-?\d*.\d+)\s*\)/i,Gs=/hsl\(\s*(-?\d+|-?\d*.\d+)\s*,\s*(-?\d+|-?\d*.\d+)%\s*,\s*(-?\d+|-?\d*.\d+)%\s*\)/i,Qs=/hsla\(\s*(-?\d+|-?\d*.\d+)\s*,\s*(-?\d+|-?\d*.\d+)%\s*,\s*(-?\d+|-?\d*.\d+)%\s*,\s*(-?\d+|-?\d*.\d+)\s*\)/i,ms=/[-+]?\d*\.?\d+(?:e[-+]?\d)?/gi,Xt=/^([-+]?\d*\.?\d+(?:e[-+]?\d+)?)([a-z]+|%)$/i,js=/([a-z])([A-Z])/g,er=/(\*=|\+=|-=)/,tr=/var\(\s*(--[\w-]+)(?:\s*,\s*([^)]+))?\s*\)/;var ft={id:null,keyframes:null,playbackEase:null,playbackRate:1,frameRate:St,loop:0,reversed:!1,alternate:!1,autoplay:!0,persist:!1,duration:qe,delay:0,loopDelay:0,ease:"out(2)",composition:z.replace,modifier:Hs,onBegin:pe,onBeforeUpdate:pe,onUpdate:pe,onLoop:pe,onPause:pe,onComplete:pe,onRender:pe},Rt={current:null,root:je},U={defaults:ft,precision:4,timeScale:1,tickThreshold:200,editor:null},ps={version:"4.5.0",engine:null};we&&(kt.AnimeJS||(kt.AnimeJS=[]),kt.AnimeJS.push(ps));var hs=e=>e.replace(js,"$1-$2").toLowerCase(),Se=(e,t)=>e.indexOf(t)===0,Ze=Date.now,Pe=Array.isArray,Yt=e=>e&&e.constructor===Object,De=e=>typeof e=="number"&&!isNaN(e),Ie=e=>typeof e=="string",Oe=e=>typeof e=="function",_=e=>typeof e>"u",Xe=e=>_(e)||e===null,zt=e=>we&&e instanceof SVGElement,_s=e=>Ws.test(e),gs=e=>Se(e,"rgb"),Ts=e=>Se(e,"hsl"),rr=e=>_s(e)||(gs(e)||Ts(e))&&(e[e.length-1]===")"||!Zs.test(e)),Et=e=>!U.defaults.hasOwnProperty(e),kr=["opacity","rotate","overflow","color"],nr=(e,t)=>{if(kr.includes(t))return!1;if(e.getAttribute(t)||t in e){if(t==="scale"){let s=e.parentNode;return s&&s.tagName==="filter"}return!0}},Ht=e=>Ie(e)?parseFloat(e):e,ot=Math.pow,At=Math.sqrt,or=Math.sin,ir=Math.cos,wt=Math.abs;var it=Math.floor,ar=Math.asin;var Nt=Math.PI,sr=Math.round,_e=(e,t,s)=>e<t?t:e>s?s:e,E=(e,t)=>{if(t<0)return e;if(!t)return sr(e);let s=10**t;return sr(e*s)/s};var mt=(e,t,s)=>s===1?t:s===0?e:e+(t-e)*s,Pt=e=>e===1/0?xt:e===-1/0?-xt:e,at=e=>e<=b?b:Pt(E(e,11)),H=e=>Pe(e)?[...e]:e,lr=(e,t)=>{let s={...e};for(let r in t){let n=e[r];s[r]=_(n)?t[r]:n}return s},V=(e,t,s,r="_prev",n="_next")=>{let o=e._head,i=n;for(s&&(o=e._tail,i=r);o;){let a=o[i];t(o),o=a}},lt=(e,t,s="_prev",r="_next")=>{let n=t[s],o=t[r];n?n[r]=o:e._head=o,o?o[s]=n:e._tail=n,t[s]=null,t[r]=null},We=(e,t,s,r="_prev",n="_next")=>{let o=e._tail;for(;o&&s&&s(o,t);)o=o[r];let i=o?o[n]:e._head;o?o[n]=t:e._head=t,i?i[r]=t:e._tail=t,t[r]=o,t[n]=i};var cr=(e,t,s)=>{let r=e.style.transform;if(r){let n=e[et],o=0,i=r.length,a;for(;o<i;){for(;o<i&&r.charCodeAt(o)===32;)o++;if(o>=i)break;let c=o;for(;o<i&&r.charCodeAt(o)!==40;)o++;if(o>=i)break;let u=r.substring(c,o),m=1,f=o+1,p=-1,S=-1;for(o++;o<i&&m>0;){let te=r.charCodeAt(o);te===40?m++:te===41?m--:te===44&&m===1&&(p===-1?p=o:S===-1&&(S=o)),o++}let x=o-1;u==="translate"||u==="translate3d"?(p===-1?n.translateX=r.substring(f,x).trim():(n.translateX=r.substring(f,p).trim(),S===-1?n.translateY=r.substring(p+1,x).trim():(n.translateY=r.substring(p+1,S).trim(),n.translateZ=r.substring(S+1,x).trim())),a=r.substring(f,x)):u==="scale"||u==="scale3d"?p===-1?n.scale=r.substring(f,x).trim():(n.scaleX=r.substring(f,p).trim(),S===-1?n.scaleY=r.substring(p+1,x).trim():(n.scaleY=r.substring(p+1,S).trim(),n.scaleZ=r.substring(S+1,x).trim())):n[u]=r.substring(f,x)}if(t==="translate3d"&&a)return s&&(s[t]=a),a;let l=n[t];if(!_(l))return s&&(s[t]=l),l}return t==="translate3d"?"0px, 0px, 0px":t==="rotate3d"?"0, 0, 0, 0deg":Se(t,"scale")?"1":Se(t,"rotate")||Se(t,"skew")?"0deg":"0px"},Zt=e=>{let t=Ne;for(let s=0,r=dt.length;s<r;s++){let n=dt[s],o=e[n];if(o!==void 0){if(n==="translateX"){let i=e.translateY;if(i!==void 0){let a=e.translateZ;a!==void 0?(t+=`translate3d(${o},${i},${a}) `,s+=2):(t+=`translate(${o},${i}) `,s+=1);continue}}if(n==="scaleX"&&e.scale===void 0){let i=e.scaleY;if(i!==void 0){let a=e.scaleZ;a!==void 0?(t+=`scale3d(${o},${i},${a}) `,s+=2):(t+=`scale(${o},${i}) `,s+=1);continue}}t+=`${zs[n]}${o}) `}n==="rotateZ"&&e.rotate3d!==void 0&&(t+=`rotate3d(${e.rotate3d}) `)}return e.matrix!==void 0&&(t+=`matrix(${e.matrix}) `),e.matrix3d!==void 0&&(t+=`matrix3d(${e.matrix3d}) `),t};var ys=[];function Wt(e,t){if(!e)return null;let s=ys.length;e:for(let r=0;r<s;r++){let n=ys[r];if(n.detect&&!n.detect(e))continue;let o=n.targetAdapters;for(let i=0,a=o.length;i<a;i++){let l=o[i];if(l.detect(e)){let c=l.props[t];if(c&&(!c.gate||c.gate(e)))return c;break e}}}for(let r=0;r<s;r++){let n=ys[r];if(n.detect&&!n.detect(e))continue;let o=n.propertyResolvers;for(let i=0,a=o.length;i<a;i++){let l=o[i](e,t);if(l)return l}}return null}var $r=e=>{let t=Js.exec(e)||Ks.exec(e),s=_(t[4])?1:+t[4];return[+t[1],+t[2],+t[3],s]},qr=e=>{let t=e.length,s=t===4||t===5;return[+("0x"+e[1]+e[s?1:2]),+("0x"+e[s?2:3]+e[s?2:4]),+("0x"+e[s?3:5]+e[s?3:6]),t===5||t===9?+(+("0x"+e[s?4:7]+e[s?4:8])/255).toFixed(3):1]},vs=(e,t,s)=>(s<0&&(s+=1),s>1&&(s-=1),s<1/6?e+(t-e)*6*s:s<1/2?t:s<2/3?e+(t-e)*(2/3-s)*6:e),Xr=e=>{let t=Gs.exec(e)||Qs.exec(e),s=+t[1]/360,r=+t[2]/100,n=+t[3]/100,o=_(t[4])?1:+t[4],i,a,l;if(r===0)i=a=l=n;else{let c=n<.5?n*(1+r):n+r-n*r,u=2*n-c;i=E(vs(u,c,s+1/3)*255,0),a=E(vs(u,c,s)*255,0),l=E(vs(u,c,s-1/3)*255,0)}return[i,a,l,o]},ur=e=>gs(e)?$r(e):_s(e)?qr(e):Ts(e)?Xr(e):[0,0,0,1];var J=(e,t)=>_(e)?t:e,dr=(e,t)=>{let s=e.match(tr),r=t[$e]?t:document.documentElement,n=getComputedStyle(r)?.getPropertyValue(s[1]);return(!n||n.trim()===Ne)&&s[2]&&(n=s[2].trim()),n||0},Ye=(e,t,s,r,n,o)=>{if(Oe(e)){if(!n){let a=e(t,s,r,o);return isNaN(+a)?a||0:+a}let i=()=>{let a=e(t,s,r,o);return isNaN(+a)?a||0:+a};return n.func=i,i()}if(Ie(e)&&Se(e,Ys)){if(!n)return dr(e,t);let i=()=>dr(e,t);return n.func=i,i()}return e},bs=(e,t)=>e[$e]?e[$t]&&nr(e,t)?M.ATTRIBUTE:dt.includes(t)||qt.get(t)?M.TRANSFORM:Se(t,"--")?M.CSS_VAR:t in e.style?M.CSS:t in e?M.OBJECT:M.ATTRIBUTE:M.OBJECT,fr=(e,t,s)=>{let r=e.style[t];r&&s&&(s[t]=r);let n=r||getComputedStyle(e[Xs]||e).getPropertyValue(t);return n==="auto"?"0":n},tt=(e,t,s,r)=>{let n=_(s)?bs(e,t):s,o=Wt(e,t);if(o){let i=o.get(e);return i&&r&&(r[t]=i),i??0}if(n===M.OBJECT){let i=e[t];return i&&r&&(r[t]=i),i||0}if(n===M.ATTRIBUTE){let i=e.getAttribute(t);return i&&r&&(r[t]=i),i}return n===M.TRANSFORM?cr(e,t,r):n===M.CSS_VAR?fr(e,t,r).trimStart():fr(e,t,r)},pt=(e,t,s)=>s==="-"?e-t:s==="+"?e+t:e*t,Jt=()=>({t:g.NUMBER,n:0,u:null,o:null,d:null,s:null}),ge=(e,t)=>{if(t.t=g.NUMBER,t.n=0,t.u=null,t.o=null,t.d=null,t.s=null,!e)return t;let s=+e;if(!isNaN(s))return t.n=s,t;let r=e;r[1]==="="&&(t.o=r[0],r=r.slice(2));let n=r.includes(" ")?!1:Xt.exec(r);if(n)return t.t=g.UNIT,t.n=+n[1],t.u=n[2],t;if(t.o)return t.n=+r,t;if(rr(r))return t.t=g.COLOR,t.d=ur(r),t;{let o=r.match(ms);return t.t=g.COMPLEX,t.d=o?o.map(Number):[],t.s=r.split(ms)||[],t}},xs=(e,t)=>(t.t=e._valueType,t.n=e._toNumber,t.u=e._unit,t.o=null,t.d=H(e._toNumbers),t.s=H(e._strings),t),Ce=Jt(),Kt=(e,t,s)=>{let r=e._modifier,n=e._fromNumbers,o=e._toNumbers,i=e._strings,a=i[0];for(let l=0,c=o.length;l<c;l++){let u=r(E(mt(n[l],o[l],t),s)),m=i[l+1];a+=`${m?u+m:u}`,e._numbers[l]=u}return a};var Dt=(e,t,s,r,n)=>{let o=e.parent,i=e.duration,a=e.completed,l=e.iterationDuration,c=e.iterationCount,u=e._currentIteration,m=e._loopDelay,f=e._reversed,p=e._alternate,S=e._hasChildren,x=e._delay,te=e._currentTime,Me=x+l,se=t-x,Te=_e(te,-x,i),K=_e(se,-x,i),re=se-te,D=K>0,ue=K>=i,Le=i<=b,Re=n===ie.FORCE,Ee=0,ye=se,Be=0;if(c>1){let Ve=l+(ue?0:m),ne=~~(K/Ve);e._currentIteration=_e(ne,0,c),ue&&e._currentIteration--,Ee=e._currentIteration%2,ye=K-ne*Ve||0}let He=f^(p&&Ee),ve=e._ease,F=ue?He?0:i:He?l-ye:ye;ve&&(F=l*ve(F/l)||0);let X=(o?o.backwards:se<te)?!He:!!He;if(e._currentTime=se,e._iterationTime=F,e.backwards=X,D&&!e.began?(e.began=!0,!s&&!(o&&(X||!o.began))&&e.onBegin(e)):se<=0&&(e.began=!1),!s&&!S&&D&&e._currentIteration!==u&&e.onLoop(e),Re||n===ie.AUTO&&(t>=(o&&x>0?0:x)&&t<=Me||t<=x&&Te>x||t>=Me&&Te!==i)||F>=Me&&Te!==i||F<=x&&Te>0&&!ue||t<=Te&&Te===i&&a||ue&&!a&&Le){if(D&&(e.computeDeltaTime(Te),s||e.onBeforeUpdate(e)),!S){let Ve=Re||(X?re*-1:re)>=U.tickThreshold,ne=E(e._offset+(o?o._offset:0)+x+F,12),d=e._head,P,G,de,Ge,ke=0;for(;d;){let fe=d._composition,C=d._currentTime,be=d._changeDuration,le=d._absoluteStartTime+d._changeDuration,A=d._nextRep,ce=d._prevRep,oe=fe!==z.none,y=ce?ce._absoluteStartTime+ce._changeDuration:0,I=ce&&ce.parent!==d.parent,Q=!A||A._isOverridden?le:A.parent===d.parent?le+A._delay:A._absoluteStartTime<A._absoluteUpdateStartTime?A._absoluteStartTime:A._absoluteUpdateStartTime;if((Ve||(C!==be||ne<=Q||ce&&!I&&(!A||A.parent!==d.parent))&&(C!==0||ne>=d._absoluteStartTime||I&&!d._hasFromValue&&!ce._isOverridden&&ne>=y||A&&!A._isOverridden&&A.parent===d.parent&&A._currentTime!==0&&F<A._startTime))&&(!ce||I||F>=d._startTime)&&(!oe||!d._isOverridden&&(!d._isOverlapped||ne<=le)&&(!A||A._isOverridden||ne<=Q)&&(!ce||ce._isOverridden||(I?ne>=d._absoluteStartTime||!d._hasFromValue&&ne>=y:ne>=y+d._delay)))){let j=d._currentTime=_e(F-d._startTime,0,be),O=d._ease(j/d._updateDuration),B=d._modifier,Z=d._valueType,Y=d._tweenType,he=Y===M.OBJECT,$=Z===g.NUMBER,W=$&&he||O===0||O===1?-1:U.precision,v,L;if($)v=L=B(E(mt(d._fromNumber,d._toNumber,O),W));else if(Z===g.UNIT)L=B(E(mt(d._fromNumber,d._toNumber,O),W)),v=`${L}${d._unit}`;else if(Z===g.COLOR){let N=d._numbers,k=d._fromNumbers,w=d._toNumbers,ee=1-O,q=k[0],Qe=k[1],Ue=k[2],ut=w[0],nt=w[1],vt=w[2];N[0]=B(Math.sqrt(q*q*ee+ut*ut*O)),N[1]=B(Math.sqrt(Qe*Qe*ee+nt*nt*O)),N[2]=B(Math.sqrt(Ue*Ue*ee+vt*vt*O)),N[3]=B(mt(k[3],w[3],O)),(!d._setter||r)&&(v=`rgba(${E(N[0],0)},${E(N[1],0)},${E(N[2],0)},${N[3]})`)}else Z===g.COMPLEX&&(v=Kt(d,O,W));if(oe&&(d._number=L),!r&&fe!==z.blend){let N=d.property;P=d.target,d._setter?d._setter(P,L,d):he?P[N]=v:Y===M.ATTRIBUTE?P.setAttribute(N,v):(G=P.style,Y===M.TRANSFORM?(P!==de&&(de=P,Ge=P[et]),Ge[N]=v,ke=1):Y===M.CSS?G[N]=v:Y===M.CSS_VAR&&G.setProperty(N,v)),D&&(Be=1)}else d._value=v}else C&&ce&&!I&&F<d._startTime&&(d._currentTime=0);ke&&d._renderTransforms&&(G.transform=Zt(Ge),ke=0),d=d._next}!s&&Be&&e.onRender(e)}!s&&D&&e.onUpdate(e)}return o&&Le?!s&&(o.began&&!X&&se>0&&!a||X&&se<=b&&a)&&(e.onComplete(e),e.completed=!X):D&&ue?c===1/0?e._startTime+=e.duration:e._currentIteration>=c-1&&(e.paused=!0,!a&&!S&&(e.completed=!0,!s&&!(o&&(X||!o.began))&&(e.onComplete(e),e._resolve(e)))):e.completed=!1,Be},st=(e,t,s,r,n)=>{let o=e._currentIteration;if(Dt(e,t,s,r,n),e._hasChildren){let i=e,a=i.backwards,l=r?t:i._iterationTime,c=Ze(),u=0,m=!0;if(!r&&i._currentIteration!==o){let f=i.iterationDuration;V(i,p=>{if(!a)!p.completed&&!p.backwards&&p._currentTime<p.iterationDuration&&Dt(p,f,s,1,ie.FORCE),p.began=!1,p.completed=!1;else{let S=p.duration,x=p._offset+p._delay,te=x+S;!s&&S<=b&&(!x||te===f)&&p.onComplete(p)}}),s||i.onLoop(i)}V(i,f=>{let p=E((l-f._offset)*f._speed,12);if(a&&p>f._delay+f.duration)return;let S=f._fps<i._fps?f.requestTick(c):n;u+=Dt(f,p,s,r,S),!f.completed&&m&&(m=!1)},a),!s&&u&&i.onRender(i),(m||a)&&i._currentTime>=i.duration&&(i.paused=!0,i.completed||(i.completed=!0,s||(i.onComplete(i),i._resolve(i))))}};var mr={},pr=(e,t,s)=>{if(s===M.TRANSFORM){let r=qt.get(e);return r||e}else if(s===M.CSS||s===M.ATTRIBUTE&&zt(t)&&e in t.style){let r=mr[e];if(r)return r;{let n=e&&hs(e);return mr[e]=n,n}}else return e},Ss=(e,t=!1)=>{if(e._hasChildren)V(e,s=>Ss(s,t),!0);else{let s=e;s.pause(),V(s,r=>{let n=r.property,o=r.target,i=r._tweenType,a=r._inlineValue,l=Xe(a)||a===Ne;if(r._setter){if(!t&&!l){if(ge(a,Ce),Ce.d){let c=Ce.d,u=r._numbers;for(let m=0,f=c.length;m<f;m++)u[m]=c[m]}else r._number=Ce.n;r._setter(r.target,r._number,r)}}else if(i===M.OBJECT)!t&&!l&&(o[n]=a);else if(o[$e])if(i===M.ATTRIBUTE)t||(l?o.removeAttribute(n):o.setAttribute(n,a));else{let c=o.style;if(i===M.TRANSFORM){let u=o[et];l?delete u[n]:u[n]=a,r._renderTransforms&&(Object.keys(u).length?c.transform=Zt(u):c.removeProperty("transform"))}else l?c.removeProperty(hs(n)):c[n]=a}o[$e]&&s._tail===r&&s.targets.forEach(c=>{c.getAttribute&&c.getAttribute("style")===Ne&&c.removeAttribute("style")})})}return e};var ht=class{constructor(t=0){this.deltaTime=0,this._currentTime=t,this._lastTickTime=t,this._startTime=t,this._lastTime=t,this._frameDuration=qe/St,this._fps=St,this._speed=1,this._hasChildren=!1,this._head=null,this._tail=null}get fps(){return this._fps}set fps(t){let s=+t,r=s<b?b:s,n=qe/r;r>ft.frameRate&&(ft.frameRate=r),this._fps=r,this._frameDuration=n}get speed(){return this._speed}set speed(t){let s=+t;this._speed=s<b?b:s}requestTick(t){let s=this._frameDuration,r=t-this._lastTickTime,n=s*.25,o=n<4?n:4;return r+o<s?ie.NONE:(this._lastTickTime=r>=s?t-r%s:t,ie.AUTO)}computeDeltaTime(t){let s=t-this._lastTime;return this.deltaTime=s,this._lastTime=t,s}};var Je={animation:null,update:pe},hr=e=>{let t=Je.animation;return t||(t={duration:b,computeDeltaTime:pe,_offset:0,_delay:0,_head:null,_tail:null},Je.animation=t,Je.update=()=>{e.forEach(s=>{for(let r in s){let n=s[r],o=n._head;if(o){let i=o._valueType,a=i===g.COMPLEX||i===g.COLOR?H(o._fromNumbers):null,l=o._fromNumber,c=n._tail;for(;c&&c!==o;){if(a)for(let u=0,m=c._numbers.length;u<m;u++)a[u]+=c._numbers[u];else l+=c._number;c=c._prevAdd}o._toNumber=l,o._toNumbers=a}}}),Dt(t,1,1,0,ie.FORCE)}),t};var _r=we?requestAnimationFrame:setImmediate,Yr=we?cancelAnimationFrame:clearImmediate,Cs=class extends ht{constructor(t){super(t),this.useDefaultMainLoop=!0,this.pauseOnDocumentHidden=!0,this.defaults=ft,this.paused=!0,this.reqId=0}update(){let t=this._currentTime=Ze();if(this.requestTick(t)){this.computeDeltaTime(t);let s=this._speed,r=this._fps,n=this._head;for(;n;){let o=n._next;n.paused?(lt(this,n),this._hasChildren=!!this._tail,n._running=!1,n.completed&&!n._cancelled&&n.cancel()):st(n,(t-n._startTime)*n._speed*s,0,0,n._fps<r?n.requestTick(t):ie.AUTO),n=o}Je.update()}}wake(){return this.useDefaultMainLoop&&!this.reqId&&(this.requestTick(Ze()),this.reqId=_r(gr)),this}pause(){if(this.reqId)return this.paused=!0,zr()}resume(){if(this.paused)return this.paused=!1,V(this,t=>t.resetTime()),this.wake()}get speed(){return this._speed*(U.timeScale===1?1:qe)}set speed(t){let s=t*U.timeScale;this._speed!==s&&(this._speed=s,V(this,r=>r.speed=r._speed))}get timeUnit(){return U.timeScale===1?"ms":"s"}set timeUnit(t){let r=t==="s",n=r?.001:1;if(U.timeScale!==n){U.timeScale=n,U.tickThreshold=200*n;let o=r?.001:qe;this.defaults.duration*=o,this._speed*=o}}get precision(){return U.precision}set precision(t){U.precision=t}},ae=(()=>{let e=new Cs(Ze());return we&&(ps.engine=e,je.addEventListener("visibilitychange",()=>{e.pauseOnDocumentHidden&&(je.hidden?e.pause():e.resume())})),e})(),gr=()=>{ae._head?(ae.reqId=_r(gr),ae.update()):ae.reqId=0},zr=()=>(Yr(ae.reqId),ae.reqId=0,ae);var Gt={_rep:new WeakMap,_add:new Map},Ot=(e,t,s="_rep")=>{let r=Gt[s],n=r.get(e);return n||(n={},r.set(e,n)),n[t]?n[t]:n[t]={_head:null,_tail:null}},Hr=(e,t)=>e._isOverridden||e._absoluteStartTime>t._absoluteStartTime,It=e=>{e._isOverlapped=1,e._isOverridden=1,e._changeDuration=b,e._currentTime=b},Qt=(e,t)=>{let s=e._composition;if(s===z.replace){let r=e._absoluteStartTime;We(t,e,Hr,"_prevRep","_nextRep");let n=e._prevRep;if(n){let o=n.parent,i=n._absoluteEndTime;if(e.parent.id!==o.id&&o.iterationCount>1&&i+(o.duration-o.iterationDuration)>r){It(n);let c=n._prevRep;for(;c&&c.parent.id===o.id;)It(c),c=c._prevRep}let a=e._absoluteUpdateStartTime;if(i>a){let c=n._startTime,u=i-(c+n._updateDuration),m=E(a-u-c,12);n._changeDuration=m,n._currentTime=m,n._isOverlapped=1,m<b&&It(n)}let l=e.parent.parent;if(!l||l!==o.parent){let c=!0;if(V(o,u=>{u._isOverlapped||(c=!1)}),c){let u=o.parent;if(u){let m=!0;V(u,f=>{f!==o&&V(f,p=>{p._isOverlapped||(m=!1)})}),m&&u.cancel()}else o.cancel()}}}}else if(s===z.blend){let r=Ot(e.target,e.property,"_add"),n=hr(Gt._add),o=r._head;o||(o={...e},o._composition=z.replace,o._updateDuration=b,o._startTime=0,o._numbers=H(e._fromNumbers),o._number=0,o._next=null,o._prev=null,We(r,o),We(n,o));let i=e._toNumber;if(e._fromNumber=o._fromNumber-i,e._toNumber=0,e._numbers=H(e._fromNumbers),e._number=0,o._fromNumber=i,e._toNumbers.length){let a=H(e._toNumbers);a.forEach((l,c)=>{e._fromNumbers[c]=o._fromNumbers[c]-l,e._toNumbers[c]=0}),o._fromNumbers=a}We(r,e,null,"_prevAdd","_nextAdd")}return e},Tr=e=>{let t=e._composition;if(t!==z.none){let s=e.target,r=e.property,i=Gt._rep.get(s)[r];if(lt(i,e,"_prevRep","_nextRep"),t===z.blend){let a=Gt._add,l=a.get(s);if(!l)return;let c=l[r],u=Je.animation;lt(c,e,"_prevAdd","_nextAdd");let m=c._head;if(m&&m===c._tail){lt(c,m,"_prevAdd","_nextAdd"),lt(u,m);let f=!0;for(let p in l)if(l[p]._head){f=!1;break}f&&a.delete(s)}}}return e};var yr=e=>(e.paused=!0,e.began=!1,e.completed=!1,e),Rs=e=>(e._cancelled&&(e._hasChildren?V(e,Rs):V(e,t=>{t._composition!==z.none&&Qt(t,Ot(t.target,t.property))}),e._cancelled=0),e),vr=0,Zr=(e,t)=>e._priority>t._priority,jt=class extends ht{constructor(t={},s=null,r=0){super(0),++vr;let{id:n,delay:o,duration:i,reversed:a,alternate:l,loop:c,loopDelay:u,autoplay:m,frameRate:f,playbackRate:p,priority:S,onComplete:x,onLoop:te,onPause:Me,onBegin:se,onBeforeUpdate:Te,onUpdate:K}=t;Rt.current&&Rt.current.register(this);let re=s?0:ae._lastTickTime,D=s?s.defaults:U.defaults,ue=Oe(o)||_(o)?D.delay:+o,Le=Oe(i)||_(i)?1/0:+i,Re=J(c,D.loop),Ee=J(u,D.loopDelay),ye=Re===!0||Re===1/0||Re<0?1/0:Re+1,Be=0;s?Be=r:(ae.reqId||ae.requestTick(Ze()),Be=(ae._lastTickTime-ae._startTime)*U.timeScale),this.id=_(n)?vr:n,this.parent=s,this.duration=Pt((Le+Ee)*ye-Ee)||b,this.backwards=!1,this.paused=!0,this.began=!1,this.completed=!1,this.onBegin=se||D.onBegin,this.onBeforeUpdate=Te||D.onBeforeUpdate,this.onUpdate=K||D.onUpdate,this.onLoop=te||D.onLoop,this.onPause=Me||D.onPause,this.onComplete=x||D.onComplete,this.iterationDuration=Le,this.iterationCount=ye,this._autoplay=s?!1:J(m,D.autoplay),this._offset=Be,this._delay=ue,this._loopDelay=Ee,this._iterationTime=0,this._currentIteration=0,this._resolve=pe,this._running=!1,this._reversed=+J(a,D.reversed),this._reverse=this._reversed,this._cancelled=0,this._alternate=J(l,D.alternate),this._prev=null,this._next=null,this._lastTickTime=re,this._startTime=re,this._lastTime=re,this._fps=J(f,D.frameRate),this._speed=J(p,D.playbackRate),this._priority=+J(S,1)}get cancelled(){return!!this._cancelled}set cancelled(t){t?this.cancel():this.reset(!0).play()}get currentTime(){return _e(E(this._currentTime,U.precision),-this._delay,this.duration)}set currentTime(t){let s=this.paused;this.pause().seek(+t),s||this.resume()}get iterationCurrentTime(){return _e(E(this._iterationTime,U.precision),0,this.iterationDuration)}set iterationCurrentTime(t){this.currentTime=this.iterationDuration*this._currentIteration+t}get progress(){return _e(E(this._currentTime/this.duration,10),0,1)}set progress(t){this.currentTime=this.duration*t}get iterationProgress(){return _e(E(this._iterationTime/this.iterationDuration,10),0,1)}set iterationProgress(t){let s=this.iterationDuration;this.currentTime=s*this._currentIteration+s*t}get currentIteration(){return this._currentIteration}set currentIteration(t){this.currentTime=this.iterationDuration*_e(+t,0,this.iterationCount-1)}get reversed(){return!!this._reversed}set reversed(t){t?this.reverse():this.play()}get speed(){return super.speed}set speed(t){super.speed=t,this.resetTime()}reset(t=!1){return Rs(this),this._reversed&&!this._reverse&&(this.reversed=!1),this._iterationTime=this.iterationDuration,st(this,0,1,~~t,ie.FORCE),yr(this),this._hasChildren&&V(this,yr),this}init(t=!1){this.fps=this._fps,this.speed=this._speed,!t&&this._hasChildren&&st(this,this.duration,1,~~t,ie.FORCE),this.reset(t);let s=this._autoplay;return s===!0?this.resume():s&&!_(s.linked)&&s.link(this),this}resetTime(){let t=1/(this._speed*ae._speed);return this._startTime=Ze()-(this._currentTime+this._delay)*t,this}pause(){return this.paused?this:(this.paused=!0,this.onPause(this),this)}resume(){return this.paused?(this.paused=!1,this.duration<=b&&!this._hasChildren?st(this,b,0,0,ie.FORCE):(this._running||(We(ae,this,Zr),ae._hasChildren=!0,this._running=!0),this.resetTime(),this._startTime-=12,ae.wake()),this):this}restart(){return this.reset().resume()}seek(t,s=0,r=0){Rs(this),this.completed=!1;let n=this.paused;return this.paused=!0,st(this,t+this._delay,~~s,~~r,ie.AUTO),n?this:this.resume()}alternate(){let t=this._reversed,s=this.iterationCount,r=this.iterationDuration,n=s===1/0?it(xt/r):s;return this._reversed=+(this._alternate&&!(n%2)?t:!t),s===1/0?this.iterationProgress=this._reversed?1-this.iterationProgress:this.iterationProgress:this.seek(r*n-this._currentTime),this.resetTime(),this}play(){return this._reversed&&this.alternate(),this.resume()}reverse(){return this._reversed||this.alternate(),this.resume()}cancel(){return this._hasChildren?V(this,t=>t.cancel(),!0):V(this,Tr),this._cancelled=1,this.pause()}stretch(t){let s=this.duration,r=at(t);if(s===r)return this;let n=t/s,o=t<=b;return this.duration=o?b:r,this.iterationDuration=o?b:at(this.iterationDuration*n),this._offset*=n,this._delay*=n,this._loopDelay*=n,this}revert(){st(this,0,1,0,ie.AUTO);let t=this._autoplay;return t&&t.linked&&t.linked===this&&t.revert(),this.cancel()}complete(t=0){return this.seek(this.duration,t).cancel()}then(t=pe){let s=this.then,r=()=>{this.then=null,t(this),this.then=s,this._resolve=pe};return new Promise(n=>(this._resolve=()=>n(r()),this.completed&&this._resolve(),this))}};function br(e){let t=Ie(e)?Rt.root.querySelectorAll(e):e;if(t instanceof NodeList||t instanceof HTMLCollection)return t}function Wr(e){if(Xe(e))return[];if(!we)return Pe(e)&&e.flat(1/0)||[e];if(Pe(e)){let s=e.flat(1/0),r=[];for(let n=0,o=s.length;n<o;n++){let i=s[n];if(!Xe(i)){let a=br(i);if(a)for(let l=0,c=a.length;l<c;l++){let u=a[l];if(!Xe(u)){let m=!1;for(let f=0,p=r.length;f<p;f++)if(r[f]===u){m=!0;break}m||r.push(u)}}else{let l=!1;for(let c=0,u=r.length;c<u;c++)if(r[c]===i){l=!0;break}l||r.push(i)}}}return r}let t=br(e);return t?Array.from(t):[e]}function es(e){let t=Wr(e),s=t.length;for(let r=0;r<s;r++){let n=t[r];if(!n[fs]){n[fs]=!0;let o=zt(n);(n.nodeType||o)&&(n[$e]=!0,n[$t]=o,n[et]={})}}return t}var Es={deg:1,rad:180/Nt,turn:360},xr={},As=(e,t,s,r=!1)=>{let n=t.u,o=t.n;if(t.t===g.UNIT&&n===s)return t;let i=o+n+s,a=xr[i];if(!_(a)&&!r)t.n=a;else{let l;if(n in Es)l=o*Es[n]/Es[s];else{let u=e.cloneNode(),m=e.parentNode,f=m&&m!==je?m:je.body;f.appendChild(u);let p=u.style;p.width=100+n;let S=u.offsetWidth||100;p.width=100+s;let x=u.offsetWidth||100,te=S/x;f.removeChild(u),l=te*o}t.n=l,xr[i]=l}return t.t,g.UNIT,t.u=s,t};var Ke=e=>e;var Mt=(e=1.68)=>t=>ot(t,+e),Ns={in:e=>t=>e(t),out:e=>t=>1-e(1-t),inOut:e=>t=>t<.5?e(t*2)/2:1-e(t*-2+2)/2,outIn:e=>t=>t<.5?(1-e(1-t*2))/2:(e(t*2-1)+1)/2},Jr=Nt/2,Sr=Nt*2,Cr={[Ne]:Mt,Quad:Mt(2),Cubic:Mt(3),Quart:Mt(4),Quint:Mt(5),Sine:e=>1-ir(e*Jr),Circ:e=>1-At(1-e*e),Expo:e=>e?ot(2,10*e-10):0,Bounce:e=>{let t,s=4;for(;e<((t=ot(2,--s))-1)/11;);return 1/ot(4,3-s)-7.5625*ot((t*3-2)/22-e,2)},Back:(e=1.7)=>t=>(+e+1)*t*t*t-+e*t*t,Elastic:(e=1,t=.3)=>{let s=_e(+e,1,10),r=_e(+t,b,2),n=r/Sr*ar(1/s),o=Sr/r;return i=>i===0||i===1?i:-s*ot(2,-10*(1-i))*or((1-i-n)*o)}},ws=(()=>{let e={linear:Ke,none:Ke};for(let t in Ns)for(let s in Cr){let r=Cr[s],n=Ns[t];e[t+s]=s===Ne||s==="Back"||s==="Elastic"?(o,i)=>n(r(o,i)):n(r)}return e})(),ts={linear:Ke,none:Ke},Kr=e=>{if(ts[e])return ts[e];if(e.indexOf("(")<=-1){let s=Ns[e]||e.includes("Back")||e.includes("Elastic")?ws[e]():ws[e];return s?ts[e]=s:Ke}else{let t=e.slice(0,-1).split("("),s=ws[t[0]];return s?ts[e]=s(...t[1].split(",")):Ke}},Rr=["steps(","irregular(","linear(","cubicBezier("],Lt=e=>{if(Ie(e)){for(let s=0,r=Rr.length;s<r;s++)if(Se(e,Rr[s]))return console.warn(`String syntax for \`ease: "${e}"\` has been removed from the core and replaced by importing and passing the easing function directly: \`ease: ${e}\``),Ke}return Oe(e)?e:Ie(e)?Kr(e):Ke};var h=Jt(),T=Jt(),_t={},ss={func:null},rs={func:null},ns=[null],gt=[null,null],os={to:null},Gr=0,Er=0,rt,ze,Qr=(e,t)=>{let s={};if(Pe(e)){let r=[].concat(...e.map(n=>Object.keys(n))).filter(Et);for(let n=0,o=r.length;n<o;n++){let i=r[n],a=e.map(l=>{let c={};for(let u in l){let m=l[u];Et(u)?u===i&&(c.to=m):c[u]=m}return c});s[i]=a}}else{let r=J(t.duration,U.defaults.duration);Object.keys(e).map(o=>({o:parseFloat(o)/100,p:e[o]})).sort((o,i)=>o.o-i.o).forEach(o=>{let i=o.o,a=o.p;for(let l in a)if(Et(l)){let c=s[l];c||(c=s[l]=[]);let u=i*r,m=c.length,f=c[m-1],p={to:a[l]},S=0;for(let x=0;x<m;x++)S+=c[x].duration;m===1&&(p.from=f.to),a.ease&&(p.ease=a.ease),p.duration=u-(m?S:0),c.push(p)}return o});for(let o in s){let i=s[o],a;for(let l=0,c=i.length;l<c;l++){let u=i[l],m=u.ease;u.ease=a||void 0,a=m}i[0].duration||i.shift()}}return s},is=class extends jt{constructor(t,s,r,n,o=!1,i=0,a){super(s,r,n),this._head,this._tail,++Er;let l=es(t),c=l.length,u=s.keyframes,m=u?lr(Qr(u,s),s):s,{id:f,delay:p,duration:S,ease:x,playbackEase:te,modifier:Me,composition:se,onRender:Te}=m,K=r?r.defaults:U.defaults,re=J(x,K.ease),D=J(te,K.playbackEase),ue=D?Lt(D):null,Le=!_(re.ease),Re=Le?re.ease:J(x,ue?"linear":K.ease),Ee=Le?re.settlingDuration:J(S,K.duration),ye=J(p,K.delay),Be=Me||K.modifier,He=_(se)&&c>=qe?z.none:_(se)?K.composition:se,ve=this._offset+(r?r._offset:0);Le&&(re.parent=this);let F=NaN,X=NaN,Ve=0,ne=0;for(let d=0;d<c;d++){let P=l[d],G=i||d,de=a||l,Ge=NaN,ke=NaN;for(let fe in m)if(Et(fe)){let C=bs(P,fe),be=Wt(P,fe),le=pr(fe,P,C),A=m[fe],ce=Pe(A);if(o&&!ce&&(gt[0]=A,gt[1]=A,A=gt),ce){let O=A.length,B=!Yt(A[0]);O===2&&B?(os.to=A,ns[0]=os,rt=ns):O>2&&B?(rt=[],A.forEach((Z,Y)=>{Y?Y===1?(gt[1]=Z,rt.push(gt)):rt.push(Z):gt[0]=Z})):rt=A}else ns[0]=A,rt=ns;let oe=null,y=null,I=NaN,Q=0,j=0;for(let O=rt.length;j<O;j++){let B=rt[j];Yt(B)?ze=B:(os.to=B,ze=os),ss.func=null,rs.func=null;let Z=Ye(J(ze.composition,He),P,G,de,null,null),Y=De(Z)?Z:z[Z];!oe&&Y!==z.none&&(oe=Ot(P,le));let he=oe?oe._tail:null,$=r&&he&&he.parent.parent===r?he:y,W=Ye(ze.to,P,G,de,ss,$),v;Yt(W)&&!_(W.to)?(ze=W,v=W.to):v=W;let L=Ye(ze.from,P,G,de,rs,$),N=ze.ease||Re,k=Ye(N,P,G,de,null,$),w=Oe(k)||Ie(k)?k:N,ee=!_(w)&&!_(w.ease),q=ee?w.ease:w,Qe=ee?w.settlingDuration:Ye(J(ze.duration,O>1?Ye(Ee,P,G,de,null,$)/O:Ee),P,G,de,null,$),Ue=Ye(J(ze.delay,j?0:ye),P,G,de,null,$),ut=ze.modifier||Be,nt=!_(L),vt=!_(v),bt=Pe(v),Vr=bt||nt&&vt,Ur=y?Q:0,ls=y?Q+Ue:Ue,cs=E(ve+ls,12),Fr=E(ve+Ur,12);!ne&&(nt||bt)&&(ne=1);let Ae=y;if(Y!==z.none){let R=oe._head;for(;R&&R._absoluteStartTime<=cs;)if(R._isOverridden||(Ae=R),R=R._nextRep,R&&R._absoluteStartTime>=cs)for(;R;)It(R),R=R._nextRep}if(Vr){ge(bt?Ye(v[0],P,G,de,rs,$):L,h),ge(bt?Ye(v[1],P,G,de,ss,$):v,T);let R=tt(P,le,C,_t);h.t===g.NUMBER&&(Ae?Ae._valueType===g.UNIT&&(h.t=g.UNIT,h.u=Ae._unit):(ge(R,Ce),Ce.t===g.UNIT&&(h.t=g.UNIT,h.u=Ce.u)))}else vt?ge(v,T):y?xs(y,T):ge(r&&Ae&&Ae.parent.parent===r?Ae._value:tt(P,le,C,_t),T),nt?ge(L,h):y?xs(y,h):ge(r&&Ae&&Ae.parent.parent===r?Ae._value:tt(P,le,C,_t),h);if(h.o&&(h.n=pt(Ae?Ae._toNumber:ge(tt(P,le,C,_t),Ce).n,h.n,h.o)),T.o&&(T.n=pt(h.n,T.n,T.o)),h.t!==T.t){if(h.t===g.COMPLEX||T.t===g.COMPLEX){let R=h.t===g.COMPLEX?h:T,me=h.t===g.COMPLEX?T:h;me.t=g.COMPLEX,me.s=H(R.s),me.d=R.d.map(()=>me.n)}else if(h.t===g.UNIT||T.t===g.UNIT){let R=h.t===g.UNIT?h:T,me=h.t===g.UNIT?T:h;me.t=g.UNIT,me.u=R.u}else if(h.t===g.COLOR||T.t===g.COLOR){let R=h.t===g.COLOR?h:T,me=h.t===g.COLOR?T:h;me.t=g.COLOR,me.d=R.d.map(()=>0)}}if(h.u!==T.u){let R=T.u?h:T;R=As(P,R,T.u?T.u:h.u,!1)}if(T.d&&h.d&&T.d.length!==h.d.length){let R=h.d.length>T.d.length?h:T,me=R===h?T:h;me.d=R.d.map((on,qs)=>_(me.d[qs])?0:me.d[qs]),me.s=H(R.s)}let us=E(+Qe||b,12),Bs=_t[le];Xe(Bs)||(_t[le]=null);let Br=be?be.set:null;Q=E(ls+us,12);let Bt=h.d,ks=T.d,$s=T.s,xe={parent:this,id:Gr++,property:le,target:P,_value:null,_toFunc:ss.func,_fromFunc:rs.func,_ease:Lt(q),_fromNumbers:Bt?H(Bt):Ct,_toNumbers:ks?H(ks):Ct,_strings:$s?H($s):Ct,_fromNumber:h.n,_toNumber:T.n,_numbers:Bt?H(Bt):Ct,_number:h.n,_unit:T.u,_modifier:ut,_currentTime:0,_startTime:ls,_delay:+Ue,_updateDuration:us,_changeDuration:us,_absoluteStartTime:cs,_absoluteUpdateStartTime:Fr,_absoluteEndTime:E(ve+Q,12),_hasFromValue:nt||bt?1:0,_tweenType:C,_setter:Br,_valueType:T.t,_composition:Y,_isOverlapped:0,_isOverridden:0,_renderTransforms:0,_inlineValue:Bs,_prevRep:null,_nextRep:null,_prevAdd:null,_nextAdd:null,_prev:null,_next:null};Y!==z.none&&Qt(xe,oe);let ds=xe._valueType;if(ds===g.COMPLEX)xe._value=Kt(xe,1,-1);else if(ds===g.UNIT)xe._value=`${ut(xe._toNumber)}${xe._unit}`;else if(ds===g.COLOR){let R=T.d;xe._value=`rgba(${E(R[0],0)},${E(R[1],0)},${E(R[2],0)},${R[3]})`}else xe._value=ut(xe._toNumber);isNaN(I)&&(I=xe._startTime),y=xe,Ve++,We(this,xe)}(isNaN(X)||I<X)&&(X=I),(isNaN(F)||Q>F)&&(F=Q),C===M.TRANSFORM&&(Ge=Ve-j,ke=Ve)}if(!isNaN(Ge)){let fe=0;V(this,C=>{fe>=Ge&&fe<ke&&(C._renderTransforms=1,C._composition===z.blend&&V(Je.animation,be=>{be.id===C.id&&(be._renderTransforms=1)})),fe++})}}c||console.warn("No target found. Make sure the element you're trying to animate is accessible before creating your animation."),X?(V(this,d=>{d._startTime-d._delay||(d._delay-=X),d._startTime-=X}),F-=X):X=0,F||(F=b,this.iterationCount=0),this.targets=l,this.id=_(f)?Er:f,this.duration=F===b?b:Pt((F+this._loopDelay)*this.iterationCount-this._loopDelay)||b,this.onRender=Te||K.onRender,this._ease=ue,this._delay=X,this.iterationDuration=F,!this._autoplay&&ne&&this.onRender(this)}stretch(t){let s=this.duration;if(s===at(t))return this;let r=t/s;return V(this,n=>{n._updateDuration=at(n._updateDuration*r),n._changeDuration=at(n._changeDuration*r),n._currentTime*=r,n._delay*=r,n._startTime*=r,n._absoluteStartTime*=r,n._absoluteUpdateStartTime*=r,n._absoluteEndTime*=r}),super.stretch(t)}refresh(){return V(this,t=>{let s=t._toFunc,r=t._fromFunc;(s||r)&&(r?(ge(r(),h),h.u!==t._unit&&t.target[$e]&&As(t.target,h,t._unit,!0),t._fromNumbers=H(h.d),t._fromNumber=h.n):s&&(ge(tt(t.target,t.property,t._tweenType),Ce),t._fromNumbers=H(Ce.d),t._fromNumber=Ce.n),s&&(ge(s(),T),t._toNumbers=H(T.d),t._strings=H(T.s),t._toNumber=T.o?pt(t._fromNumber,T.n,T.o):T.n))}),this.duration===b&&this.restart(),this}revert(){return super.revert(),Ss(this)}then(t){return super.then(t)}},ct=(e,t)=>U.editor?U.editor.addAnimation(e,t):new is(e,t,null,0,!1).init();var jr=(e,t)=>{if(Se(t,"<")){let s=t[1]==="<",r=e._tail,n=r?r._offset+r._delay:0;return s?n:n+r.duration}},Ar=(e,t)=>{let s=e.iterationDuration;if(s===b&&(s=0),_(t))return s;if(De(+t))return+t;let r=t,n=e?e.labels:null,o=!Xe(n),i=jr(e,r),a=!_(i),l=er.exec(r);if(l){let c=l[0],u=r.split(c),m=o&&u[0]?n[u[0]]:s,f=a?i:o?m:s,p=+u[1];return pt(f,p,c[0])}else return a?i:o?_(n[r])?s:n[r]:s};var Ps=(e=0,t=1,s=0)=>{let r=10**s;return Math.floor((Math.random()*(t-e+1/r)+e)*r)/r},en=0,wr=(e,t=0,s=1,r=0)=>{let n=e===void 0?en++:e;return(o=t,i=s,a=r)=>{n+=1831565813,n=Math.imul(n^n>>>15,n|1),n^=n+Math.imul(n^n>>>7,n|61);let l=10**a;return Math.floor((((n^n>>>14)>>>0)/4294967296*(i-o+1/l)+o)*l)/l}};var Nr=(e,t=Ps)=>{let s=e.length,r,n;for(;s;)n=t(0,--s),r=e[s],e[s]=e[n],e[n]=r;return e};var Vt=(e,t={})=>{let s=[],r=0,n,o=null,i=t.from,a=t.reversed,l=t.ease,c=!_(l),m=c&&!_(l.ease)?l.ease:c?Lt(l):null,f=t.grid,p=f===!0,S=t.axis,x=t.total,te=_(i)||i===0||i==="first",Me=i==="center",se=i==="last",Te=i==="random",K=Pe(i),re=Pe(e),D=t.use,ue=re?Ht(e[0]):Ht(e),Le=re?Ht(e[1]):0,Re=Xt.exec((re?e[1]:e)+Ne),Ee=t.start||0+(re?ue:0),ye=t.seed,He=!_(ye)&&ye!==!1?wr(ye===!0?0:ye):Ps,ve=t.jitter,F=!_(ve),X=Pe(ve),Ve=X?ve[0]:ve||0,ne=X?ve[1]:ve||0,d=te?0:De(i)?i:0;return(P,G,de,Ge,ke)=>{let[fe]=es(P),C=_(x)?de.length:x,be=_(D)?!1:Oe(D)?D(fe,G,C):tt(fe,D),le=De(be)||Ie(be)&&De(+be)?+be:G,A=le>=0&&le<C?le:G;if(Me&&(d=(C-1)/2),se&&(d=C-1),!s.length){if(p){let y=!0,I=!1,Q=1/0,j=1/0,O=1/0,B=-1/0,Z=-1/0,Y=-1/0,he=[],$=[],W=[];for(let v=0;v<C;v++){let L=de[v],N=0,k=0,w=0,ee=!1;if(L&&Oe(L.getBoundingClientRect)){let q=L.getBoundingClientRect();N=q.left+q.width/2,k=q.top+q.height/2,ee=!0}else{let q=L;q&&De(q.x)&&De(q.y)&&(N=q.x,k=q.y,De(q.z)&&(w=q.z,I=!0),ee=!0)}if(!ee){y=!1;break}he.push(N),$.push(k),W.push(w),N<Q&&(Q=N),k<j&&(j=k),w<O&&(O=w),N>B&&(B=N),k>Z&&(Z=k),w>Y&&(Y=w)}if(y){let v=he[0],L=$[0],N=W[0];K?(v=Q+i[0]*(B-Q),L=j+i[1]*(Z-j),N=I?O+(i.length>=3?i[2]:.5)*(Y-O):0):Me?(v=(Q+B)/2,L=(j+Z)/2,N=(O+Y)/2):se?(v=he[C-1],L=$[C-1],N=W[C-1]):De(i)&&(v=he[i],L=$[i],N=W[i]);for(let w=0;w<C;w++){let ee=v-he[w],q=L-$[w],Qe=N-W[w],Ue=At(ee*ee+q*q+(I?Qe*Qe:0));S==="x"&&(Ue=-ee),S==="y"&&(Ue=-q),S==="z"&&(Ue=-Qe),s.push(Ue)}let k=1/0;for(let w=0;w<C;w++){let ee=wt(s[w]);ee>0&&ee<k&&(k=ee)}if(k>0&&k<1/0)for(let w=0;w<C;w++)s[w]=s[w]/k}else for(let v=0;v<C;v++)s.push(wt(d-v))}else for(let y=0;y<C;y++)if(!f)s.push(wt(d-y));else{let I=f.length,Q=f[0]*f[1],j,O,B;K?(j=i[0]*(f[0]-1),O=i[1]*(f[1]-1),B=I===3?(i.length>=3?i[2]:.5)*(f[2]-1):0):Me?(j=(f[0]-1)/2,O=(f[1]-1)/2,B=I===3?(f[2]-1)/2:0):(j=d%f[0],O=it(d/f[0])%f[1],B=I===3?it(d/Q):0);let Z=y%f[0],Y=it(y/f[0])%f[1],he=I===3?it(y/Q):0,$=j-Z,W=O-Y,v=B-he,L=At($*$+W*W+(I===3?v*v:0));S==="x"&&(L=-$),S==="y"&&(L=-W),S==="z"&&(L=-v),s.push(L)}r=s[0];for(let y=1;y<C;y++)s[y]>r&&(r=s[y]);if(m||a)for(let y=0;y<C;y++){let I=s[y];m&&(I=m(I/r)*r),a&&(I=S?-I:wt(r-I)),s[y]=I}if(F){o=new Array(C);for(let y=0;y<C;y++)o[y]=He(-1,1,4)}Te&&(s=Nr(s,He))}let ce=re?(Le-ue)/r:ue;_(n)&&(n=ke?Ar(ke,_(t.start)?ke.iterationDuration:Ee):Ee);let oe=n+(ce*E(s[A],2)||0);if(F){let y=r?s[A]/r:0,I=Ve+(ne-Ve)*y;oe=oe+o[A]*I}return t.modifier&&(oe=t.modifier(oe)),Re&&(oe=`${oe}${Re[2]}`),oe}};var as=document.documentElement,Fe=window.matchMedia("(prefers-reduced-motion: reduce)"),Is=document.querySelectorAll("[data-reveal]"),tn=!Fe.matches&&"IntersectionObserver"in window;if(tn){as.classList.add("anime-motion");let e=document.querySelectorAll(".hero-copy > *, .ad-hero-copy > *"),t=document.querySelector(".hero-visual, .ad-hero-art"),s=document.querySelectorAll(".hero-flight, .ad-floating-note");ct(e,{opacity:[0,1],y:[44,0],delay:Vt(105,{start:100}),duration:900,ease:"outExpo"}),t&&ct(t,{opacity:[0,1],x:[64,0],y:[35,0],rotate:[5,0],scale:[.88,1],delay:220,duration:1250,ease:"outExpo"}),s.length&&ct(s,{opacity:[0,1],y:[42,0],scale:[.7,1],delay:Vt(160,{start:760}),duration:950,ease:"outBack"});let r=new IntersectionObserver((n,o)=>{n.forEach(({target:i,isIntersecting:a})=>{if(!a)return;o.unobserve(i),i.classList.add("is-visible"),ct(i,{opacity:[0,1],y:[48,0],scale:[.96,1],duration:950,ease:"outExpo",onComplete:()=>{i.style.opacity="1",i.style.transform=""}});let l=i.matches(".steps, .course-grid, .ad-price-grid")?i.children:i.querySelectorAll(".step, .course-card, .ad-price-card");l.length&&ct(l,{opacity:[0,1],x:[32,0],delay:Vt(95,{start:120}),duration:850,ease:"outExpo"})})},{rootMargin:"0px 0px -7% 0px",threshold:.12});Is.forEach(n=>{n!==t?r.observe(n):n.classList.add("is-visible")})}else Is.forEach(e=>e.classList.add("is-visible"));Fe.addEventListener?.("change",e=>{e.matches&&(as.classList.remove("anime-motion"),Is.forEach(t=>{t.classList.add("is-visible"),t.style.opacity="",t.style.transform=""}))});var Tt=document.querySelector(".menu-toggle"),Fs=document.querySelector(".site-nav");function Dr(){Tt?.setAttribute("aria-expanded","false"),Tt?.setAttribute("aria-label","\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043C\u0435\u043D\u044E"),Fs?.classList.remove("is-open")}Tt?.addEventListener("click",()=>{let e=Tt.getAttribute("aria-expanded")==="true";Tt.setAttribute("aria-expanded",String(!e)),Tt.setAttribute("aria-label",e?"\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043C\u0435\u043D\u044E":"\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u043C\u0435\u043D\u044E"),Fs?.classList.toggle("is-open",!e)});Fs?.addEventListener("click",e=>{e.target.closest("a")&&Dr()});document.addEventListener("keydown",e=>{e.key==="Escape"&&Dr()});document.addEventListener("visibilitychange",()=>{as.classList.toggle("document-hidden",document.hidden)});var sn=document.querySelector(".page-progress"),Os=!1;function Ir(){let e=document.documentElement.scrollHeight-window.innerHeight,t=e>0?window.scrollY/e:0;sn?.style.setProperty("transform",`scaleX(${Math.min(1,Math.max(0,t))})`),Os=!1}window.addEventListener("scroll",()=>{Os||(Os=!0,window.requestAnimationFrame(Ir))},{passive:!0});Ir();var Or=document.querySelectorAll(".hero-visual,.case-image,.motion-ribbon,.hero-mobile-ribbon,.final-cta,.mentor-signature,.brand-teaser,.ad-hero-art"),Ms=new Set,Ls=0;function rn(){if(Ls=0,document.hidden||Fe.matches)return;let e=window.innerHeight;[...Ms].map(s=>{let r=s.getBoundingClientRect();return[s,Math.max(-1,Math.min(1,(e/2-r.top-r.height/2)/e))]}).forEach(([s,r])=>{s.style.setProperty("--scroll-shift",`${r*70}px`),s.style.setProperty("--scroll-turn",`${r*7}deg`)})}function Ft(){!Ls&&!document.hidden&&!Fe.matches&&(Ls=requestAnimationFrame(rn))}if("IntersectionObserver"in window){let e=new IntersectionObserver(t=>{t.forEach(({target:s,isIntersecting:r})=>{s.classList.toggle("motion-active",r),r?Ms.add(s):Ms.delete(s)}),Ft()},{rootMargin:"80px"});Or.forEach(t=>e.observe(t))}window.addEventListener("scroll",Ft,{passive:!0});window.addEventListener("resize",Ft,{passive:!0});document.addEventListener("visibilitychange",Ft);Fe.addEventListener?.("change",()=>{Fe.matches?Or.forEach(e=>{e.style.removeProperty("--scroll-shift"),e.style.removeProperty("--scroll-turn")}):Ft()});var Mr=matchMedia("(hover: hover) and (pointer: fine)");document.querySelectorAll(".course-card,.review-quote").forEach(e=>{let t=0;e.addEventListener("pointermove",s=>{Fe.matches||!Mr.matches||t||(t=requestAnimationFrame(()=>{t=0;let r=e.getBoundingClientRect();e.style.setProperty("--tilt-x",`${-(s.clientY-r.top-r.height/2)/r.height*7}deg`),e.style.setProperty("--tilt-y",`${(s.clientX-r.left-r.width/2)/r.width*7}deg`)}))}),e.addEventListener("pointerleave",()=>{cancelAnimationFrame(t),t=0,e.style.setProperty("--tilt-x","0deg"),e.style.setProperty("--tilt-y","0deg")})});document.querySelectorAll(".hero-visual,.button").forEach(e=>{let t=0,s=0,r=0;e.addEventListener("pointermove",n=>{Fe.matches||!Mr.matches||(s=n.clientX,r=n.clientY,!t&&(t=requestAnimationFrame(()=>{t=0;let o=e.getBoundingClientRect(),i=(s-o.left)/o.width,a=(r-o.top)/o.height;e.style.setProperty("--pointer-x",`${i*100}%`),e.style.setProperty("--pointer-y",`${a*100}%`),e.style.setProperty("--magnet-x",`${(i-.5)*8}px`),e.style.setProperty("--magnet-y",`${(a-.5)*8}px`)})))}),e.addEventListener("pointerleave",()=>{cancelAnimationFrame(t),t=0,e.style.setProperty("--magnet-x","0px"),e.style.setProperty("--magnet-y","0px")})});var yt=document.querySelector(".story-section"),Ut=[...document.querySelectorAll(".story-scene")],Pr=document.querySelector(".story-counter span:first-child"),Lr=window.matchMedia("(min-width: 900px) and (min-height: 720px)"),Vs=0;function nn(){if(Vs=0,!yt||!Lr.matches||Fe.matches)return;let e=yt.getBoundingClientRect(),t=Math.max(1,e.height-window.innerHeight),s=Math.max(0,Math.min(1,-e.top/t)),r=Math.min(Ut.length-1,Math.floor(s*Ut.length));yt.style.setProperty("--story-progress",s),Ut.forEach((n,o)=>{n.classList.toggle("is-current",o===r),n.classList.toggle("is-before",o<r)}),Pr&&(Pr.textContent=String(r+1).padStart(2,"0"))}function Us(){Vs||document.hidden||!yt||(Vs=requestAnimationFrame(nn))}function Ds(){if(!yt)return;let e=Lr.matches&&!Fe.matches;as.classList.toggle("has-story",e),e&&Us()}yt&&Ut.length&&(Ut[0].classList.add("is-current"),Ds(),window.addEventListener("scroll",Us,{passive:!0}),window.addEventListener("resize",Ds,{passive:!0}),document.addEventListener("visibilitychange",Us),Fe.addEventListener?.("change",Ds));})();
+/*! Bundled license information:
 
-document.querySelectorAll("h1, h2").forEach((heading) => {
-  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  let index = 0;
-  nodes.forEach((node) => {
-    const fragment = document.createDocumentFragment();
-    node.textContent.split(/(\s+)/).forEach((word) => {
-      if (!word.trim()) return fragment.append(document.createTextNode(word));
-      const mask = document.createElement("span");
-      const inner = document.createElement("span");
-      mask.className = "word-mask";
-      inner.className = "word-motion";
-      inner.style.setProperty("--word-delay", `${index++ * 65}ms`);
-      inner.textContent = word;
-      mask.append(inner);
-      fragment.append(mask);
-    });
-    node.replaceWith(fragment);
-  });
-});
+animejs/dist/modules/core/consts.js:
+animejs/dist/modules/core/globals.js:
+animejs/dist/modules/core/helpers.js:
+animejs/dist/modules/core/transforms.js:
+animejs/dist/modules/core/colors.js:
+animejs/dist/modules/core/values.js:
+animejs/dist/modules/core/render.js:
+animejs/dist/modules/core/styles.js:
+animejs/dist/modules/core/clock.js:
+animejs/dist/modules/core/targets.js:
+animejs/dist/modules/core/units.js:
+  (**
+   * Anime.js - core - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-if ("IntersectionObserver" in window && !reducedMotion.matches) {
-  root.classList.add("has-motion");
-  const observer = new IntersectionObserver((entries, activeObserver) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        activeObserver.unobserve(entry.target);
-      }
-    });
-  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+animejs/dist/modules/adapters/registry.js:
+  (**
+   * Anime.js - adapters - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-  revealItems.forEach((item, index) => {
-    item.style.setProperty("--delay", `${(index % 3) * 75}ms`);
-    observer.observe(item);
-  });
-} else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
-}
+animejs/dist/modules/animation/additive.js:
+animejs/dist/modules/animation/composition.js:
+animejs/dist/modules/animation/animation.js:
+  (**
+   * Anime.js - animation - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-reducedMotion.addEventListener?.("change", (event) => {
-  if (event.matches) revealItems.forEach((item) => item.classList.add("is-visible"));
-});
+animejs/dist/modules/engine/engine.js:
+  (**
+   * Anime.js - engine - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-const menuButton = document.querySelector(".menu-toggle");
-const navigation = document.querySelector(".site-nav");
+animejs/dist/modules/timer/timer.js:
+  (**
+   * Anime.js - timer - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-function closeMenu() {
-  menuButton?.setAttribute("aria-expanded", "false");
-  menuButton?.setAttribute("aria-label", "Открыть меню");
-  navigation?.classList.remove("is-open");
-}
+animejs/dist/modules/easings/none.js:
+animejs/dist/modules/easings/eases/parser.js:
+  (**
+   * Anime.js - easings - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-menuButton?.addEventListener("click", () => {
-  const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-  menuButton.setAttribute("aria-expanded", String(!isOpen));
-  menuButton.setAttribute("aria-label", isOpen ? "Открыть меню" : "Закрыть меню");
-  navigation?.classList.toggle("is-open", !isOpen);
-});
+animejs/dist/modules/timeline/position.js:
+  (**
+   * Anime.js - timeline - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-navigation?.addEventListener("click", (event) => {
-  if (event.target.closest("a")) closeMenu();
-});
+animejs/dist/modules/utils/random.js:
+animejs/dist/modules/utils/stagger.js:
+  (**
+   * Anime.js - utils - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeMenu();
-});
-
-document.addEventListener("visibilitychange", () => {
-  root.classList.toggle("document-hidden", document.hidden);
-});
-
-const progressBar = document.querySelector(".page-progress");
-let progressScheduled = false;
-
-function updateProgress() {
-  const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
-  progressBar?.style.setProperty("transform", `scaleX(${Math.min(1, Math.max(0, progress))})`);
-  progressScheduled = false;
-}
-
-window.addEventListener("scroll", () => {
-  if (!progressScheduled) {
-    progressScheduled = true;
-    window.requestAnimationFrame(updateProgress);
-  }
-}, { passive: true });
-
-updateProgress();
-
-const motionTargets = document.querySelectorAll(".hero-visual,.case-image,.motion-ribbon,.hero-mobile-ribbon,.final-cta,.mentor-signature,.brand-teaser,.ad-hero-art");
-const visibleMotion = new Set();
-let motionFrame = 0;
-
-function renderMotion() {
-  motionFrame = 0;
-  if (document.hidden || reducedMotion.matches) return;
-  const height = window.innerHeight;
-  const positions = [...visibleMotion].map((element) => {
-    const rect = element.getBoundingClientRect();
-    return [element, Math.max(-1, Math.min(1, (height / 2 - rect.top - rect.height / 2) / height))];
-  });
-  positions.forEach(([element, position]) => {
-    element.style.setProperty("--scroll-shift", `${position * 70}px`);
-    element.style.setProperty("--scroll-turn", `${position * 7}deg`);
-  });
-}
-
-function scheduleMotion() {
-  if (!motionFrame && !document.hidden && !reducedMotion.matches) {
-    motionFrame = requestAnimationFrame(renderMotion);
-  }
-}
-
-if ("IntersectionObserver" in window) {
-  const motionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(({target, isIntersecting}) => {
-      target.classList.toggle("motion-active", isIntersecting);
-      if (isIntersecting) visibleMotion.add(target);
-      else visibleMotion.delete(target);
-    });
-    scheduleMotion();
-  }, {rootMargin: "80px"});
-  motionTargets.forEach((element) => motionObserver.observe(element));
-}
-
-window.addEventListener("scroll", scheduleMotion, {passive: true});
-window.addEventListener("resize", scheduleMotion, {passive: true});
-document.addEventListener("visibilitychange", scheduleMotion);
-reducedMotion.addEventListener?.("change", () => {
-  if (reducedMotion.matches) {
-    motionTargets.forEach((element) => {
-      element.style.removeProperty("--scroll-shift");
-      element.style.removeProperty("--scroll-turn");
-    });
-  } else scheduleMotion();
-});
-
-const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
-document.querySelectorAll(".course-card,.review-quote").forEach((card) => {
-  let frame = 0;
-  card.addEventListener("pointermove", (event) => {
-    if (reducedMotion.matches || !finePointer.matches || frame) return;
-    frame = requestAnimationFrame(() => {
-      frame = 0;
-      const bounds = card.getBoundingClientRect();
-      card.style.setProperty("--tilt-x", `${-(event.clientY - bounds.top - bounds.height / 2) / bounds.height * 7}deg`);
-      card.style.setProperty("--tilt-y", `${(event.clientX - bounds.left - bounds.width / 2) / bounds.width * 7}deg`);
-    });
-  });
-  card.addEventListener("pointerleave", () => {
-    cancelAnimationFrame(frame);
-    frame = 0;
-    card.style.setProperty("--tilt-x", "0deg");
-    card.style.setProperty("--tilt-y", "0deg");
-  });
-});
-
-document.querySelectorAll(".hero-visual,.button").forEach((element) => {
-  let frame = 0;
-  let pointerX = 0;
-  let pointerY = 0;
-  element.addEventListener("pointermove", (event) => {
-    if (reducedMotion.matches || !finePointer.matches) return;
-    pointerX = event.clientX;
-    pointerY = event.clientY;
-    if (frame) return;
-    frame = requestAnimationFrame(() => {
-      frame = 0;
-      const bounds = element.getBoundingClientRect();
-      const x = (pointerX - bounds.left) / bounds.width;
-      const y = (pointerY - bounds.top) / bounds.height;
-      element.style.setProperty("--pointer-x", `${x * 100}%`);
-      element.style.setProperty("--pointer-y", `${y * 100}%`);
-      element.style.setProperty("--magnet-x", `${(x - .5) * 8}px`);
-      element.style.setProperty("--magnet-y", `${(y - .5) * 8}px`);
-    });
-  });
-  element.addEventListener("pointerleave", () => {
-    cancelAnimationFrame(frame);
-    frame = 0;
-    element.style.setProperty("--magnet-x", "0px");
-    element.style.setProperty("--magnet-y", "0px");
-  });
-});
-
-const storySection = document.querySelector(".story-section");
-const storyScenes = [...document.querySelectorAll(".story-scene")];
-const storyCounter = document.querySelector(".story-counter span:first-child");
-const storyDesktop = window.matchMedia("(min-width: 900px) and (min-height: 720px)");
-let storyFrame = 0;
-
-function updateStory() {
-  storyFrame = 0;
-  if (!storySection || !storyDesktop.matches || reducedMotion.matches) return;
-  const bounds = storySection.getBoundingClientRect();
-  const distance = Math.max(1, bounds.height - window.innerHeight);
-  const progress = Math.max(0, Math.min(1, -bounds.top / distance));
-  const active = Math.min(storyScenes.length - 1, Math.floor(progress * storyScenes.length));
-  storySection.style.setProperty("--story-progress", progress);
-  storyScenes.forEach((scene, index) => {
-    scene.classList.toggle("is-current", index === active);
-    scene.classList.toggle("is-before", index < active);
-  });
-  if (storyCounter) storyCounter.textContent = String(active + 1).padStart(2, "0");
-}
-
-function scheduleStory() {
-  if (storyFrame || document.hidden || !storySection) return;
-  storyFrame = requestAnimationFrame(updateStory);
-}
-
-function setStoryMode() {
-  if (!storySection) return;
-  const enabled = storyDesktop.matches && !reducedMotion.matches;
-  root.classList.toggle("has-story", enabled);
-  if (enabled) scheduleStory();
-}
-
-if (storySection && storyScenes.length) {
-  storyScenes[0].classList.add("is-current");
-  setStoryMode();
-  window.addEventListener("scroll", scheduleStory, { passive: true });
-  window.addEventListener("resize", setStoryMode, { passive: true });
-  document.addEventListener("visibilitychange", scheduleStory);
-  reducedMotion.addEventListener?.("change", setStoryMode);
-}
-
+animejs/dist/modules/index.js:
+  (**
+   * Anime.js - ESM
+   * @version v4.5.0
+   * @license MIT
+   * @copyright 2026 - Julian Garnier
+   *)
+*/
