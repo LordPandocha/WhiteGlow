@@ -437,3 +437,11 @@ h1,h2,h3,p,figure{margin-top:0}
 
 .content-section{padding:clamp(7rem,14vw,12rem) 0 6rem}.content-section h1{max-width:12ch}.rich-text{max-width:46rem;margin-top:3rem;color:var(--ink-soft)}.rich-text h2{margin:2.5rem 0 .75rem;color:var(--ink);font-size:clamp(1.35rem,2.5vw,2rem)}.rich-text p{margin:0 0 1rem;line-height:1.8}.rich-text .policy-updated{margin-top:3rem;font-size:.9rem;color:var(--muted)}
 @media (max-width:700px){.content-section{padding-top:6rem}.rich-text{margin-top:2rem}.rich-text h2{margin-top:2rem}}
+
+@media (prefers-reduced-motion:no-preference){
+  .anime-motion [data-reveal]{opacity:0}
+  .anime-motion .hero-copy>*,.anime-motion .ad-hero-copy>*{animation:none}
+  .anime-motion .hero-photo img,.anime-motion .hero-flight,.anime-motion .ad-floating-note{animation:none}
+  .anime-motion .hero-visual{will-change:transform,opacity}
+  .anime-motion [data-reveal].is-visible{will-change:auto}
+}
