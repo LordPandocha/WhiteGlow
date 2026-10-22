@@ -445,3 +445,7 @@ h1,h2,h3,p,figure{margin-top:0}
   .anime-motion .hero-visual{will-change:transform,opacity}
   .anime-motion [data-reveal].is-visible{will-change:auto}
 }
+
+.anime-word-mask{display:inline-block;overflow:clip;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
+.anime-word{display:inline-block;transform-origin:0 100%}
+@media (prefers-reduced-motion:no-preference){.anime-motion .anime-word{opacity:0}}
