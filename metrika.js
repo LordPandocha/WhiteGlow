@@ -12,4 +12,4 @@
   a.parentNode.insertBefore(k, a);
 })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=113770053", "ym");
 
-ym(113770053, "init", { ssr: true, webvisor: true, clickmap: true, accurateTrackBounce: true, trackLinks: true });
+window.ym(113770053, "init", { ssr: true, webvisor: true, clickmap: true, accurateTrackBounce: true, trackLinks: true });
